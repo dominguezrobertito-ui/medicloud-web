@@ -1,0 +1,19 @@
+import { Component, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './home.html',
+  styleUrl: './home.css',
+})
+export class Home {
+  private platformId = inject(PLATFORM_ID);
+
+  hasSession(): boolean {
+    if (!isPlatformBrowser(this.platformId)) return false;
+    return !!localStorage.getItem('medicloud_token');
+  }
+}

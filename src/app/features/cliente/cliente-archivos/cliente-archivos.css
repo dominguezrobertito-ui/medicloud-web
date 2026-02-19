@@ -1,0 +1,477 @@
+/* ===========================
+   MediCloud - Cliente Archivos
+   =========================== */
+
+/* Base layout */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px;
+  box-sizing: border-box;
+}
+
+/* Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.title h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.2px;
+}
+
+.title p {
+  margin: 6px 0 0;
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.14);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: background 120ms ease, transform 120ms ease, opacity 120ms ease;
+  user-select: none;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn.small {
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.btn.danger {
+  background: rgba(255, 60, 60, 0.18);
+  border-color: rgba(255, 60, 60, 0.35);
+}
+
+/* Botón "Eliminar" outline */
+.danger-outline {
+  background: transparent;
+  border-color: rgba(255, 60, 60, 0.45);
+}
+
+.danger-outline:hover {
+  background: rgba(255, 60, 60, 0.12);
+}
+
+/* Para que el <label class="btn"> (upload) se comporte como botón */
+label.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Alerts */
+.alert {
+  margin-top: 14px;
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.alert strong {
+  font-weight: 800;
+}
+
+.alert.error {
+  background: rgba(255, 60, 60, 0.12);
+  border-color: rgba(255, 60, 60, 0.25);
+}
+
+/* Cards */
+.card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
+}
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+
+  /* (nuevo) asegura tarjetas alineadas */
+  align-items: stretch;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+  padding: 14px;
+  box-sizing: border-box;
+
+  /* (nuevo) hace todas las tarjetas uniformes */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 110px;
+}
+
+.stat-label {
+  font-size: 12px;
+  opacity: 0.85;
+
+  /* (nuevo) evita que rompa layout */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat-value {
+  font-size: 22px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  /* (nuevo) mejor comportamiento en textos largos */
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.stat-sub {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 4px;
+
+  /* (nuevo) limita el texto para que no descoloque */
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Dot */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  display: inline-block;
+  flex: 0 0 auto;
+}
+
+.dot.on {
+  background: rgba(0, 255, 170, 0.75);
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+
+  /* (nuevo) para que no se rompa con filtros/botones */
+  flex-wrap: wrap;
+}
+
+.search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+.search-icon {
+  opacity: 0.75;
+  line-height: 1;
+}
+
+.search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font-size: 14px;
+  min-width: 80px;
+}
+
+/* Filtros (toggle mostrar/ocultar eliminados) */
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 220px;
+}
+
+/* Pills */
+.hint {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pill {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  opacity: 0.9;
+  line-height: 1;
+}
+
+.pill.ext {
+  margin-left: 8px;
+  padding: 4px 8px;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+/* Skeleton */
+.skeleton-row {
+  height: 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.10);
+  margin: 12px 0;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 26px 18px;
+  margin-top: 10px;
+}
+
+.empty-icon {
+  font-size: 34px;
+}
+
+.empty h3 {
+  margin: 10px 0 6px;
+}
+
+.empty p {
+  margin: 0 0 14px;
+  opacity: 0.85;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Table header */
+.table-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.table-title {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+/* Table wrapper (scroll on small screens) */
+.table-wrap {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px; /* force horizontal scroll if too small */
+}
+
+th,
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+th {
+  font-size: 12px;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.right {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* File cell */
+.file-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 360px;
+}
+
+.file-ico {
+  font-size: 18px;
+  margin-top: 2px;
+  line-height: 1;
+}
+
+.file-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.file-name {
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.file-sub {
+  font-size: 12px;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.badge-ok {
+  background: rgba(0, 255, 170, 0.12);
+  border-color: rgba(0, 255, 170, 0.30);
+}
+
+.badge-warn {
+  background: rgba(255, 200, 0, 0.12);
+  border-color: rgba(255, 200, 0, 0.30);
+}
+
+.badge-muted {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  opacity: 0.8;
+}
+
+/* Muted */
+.muted {
+  opacity: 0.75;
+}
+
+/* Footer */
+.footer {
+  margin-top: 16px;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    min-height: auto;
+  }
+
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters {
+    min-width: auto;
+    justify-content: flex-start;
+  }
+
+  .hint {
+    justify-content: flex-start;
+  }
+}

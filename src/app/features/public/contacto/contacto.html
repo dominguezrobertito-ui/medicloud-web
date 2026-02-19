@@ -1,0 +1,54 @@
+<section class="page">
+  <header class="page-header">
+    <div class="title">
+      <h1>Contacto</h1>
+      <p class="muted">Escríbenos tu consulta y te responderemos por correo.</p>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  <div class="alert error" *ngIf="error">
+    <strong>Ha ocurrido un problema.</strong>
+    <span>{{ error }}</span>
+  </div>
+
+  <div class="alert" *ngIf="okMsg">
+    <strong>Perfecto.</strong>
+    <span>{{ okMsg }}</span>
+  </div>
+
+  <!-- Form -->
+  <div class="card" style="padding:16px;margin-top:14px;">
+    <label class="muted"><strong>Correo</strong></label>
+    <input
+      class="input"
+      type="email"
+      placeholder="tu@email.com"
+      [(ngModel)]="correo"
+      [disabled]="loading"
+    />
+
+    <div style="height:12px;"></div>
+
+    <label class="muted"><strong>Mensaje</strong></label>
+    <textarea
+      class="input"
+      rows="7"
+      placeholder="Cuéntanos tu duda o problema…"
+      [(ngModel)]="mensaje"
+      [disabled]="loading"
+    ></textarea>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+      <button
+        class="btn"
+        (click)="send()"
+        [disabled]="loading || !correo.trim() || !mensaje.trim()"
+      >
+        {{ loading ? 'Enviando…' : 'Enviar' }}
+      </button>
+    </div>
+  </div>
+
+  <footer class="footer muted">MediCloud · Contacto</footer>
+</section>

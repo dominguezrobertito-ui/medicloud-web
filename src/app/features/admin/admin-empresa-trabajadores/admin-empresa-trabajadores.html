@@ -1,0 +1,74 @@
+<section class="page">
+  <header class="page-header">
+    <div class="title">
+      <a class="back muted" (click)="back()" style="cursor:pointer;">‹ Volver a empresas</a>
+      <h1>Trabajadores · {{ nombreEmpresa }}</h1>
+      
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" (click)="load()" [disabled]="loading">
+        {{ loading ? 'Actualizando…' : 'Actualizar' }}
+      </button>
+    </div>
+  </header>
+
+  <div class="alert error" *ngIf="error">
+    <strong>Ha ocurrido un problema.</strong>
+    <span>{{ error }}</span>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <span class="search-icon">🔎</span>
+      <input [(ngModel)]="q" placeholder="Buscar por nombre, correo o estado…" />
+    </div>
+
+    <div class="filters">
+      <button class="btn" (click)="load()" [disabled]="loading">Buscar</button>
+    </div>
+  </div>
+
+  <div class="card table-card">
+    <div class="table-head">
+      <div class="table-title">
+        <strong>Trabajadores</strong>
+        <span class="muted">({{ filtered.length }})</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let t of filtered">
+            <td class="muted">#{{ t.id_cuenta }}</td>
+            <td style="font-weight:800">{{ t.nombre }}</td>
+            <td class="muted">{{ t.correo }}</td>
+            <td><span [class]="badgeEstado(t.estado)">{{ t.estado }}</span></td>
+          </tr>
+
+          <tr *ngIf="!loading && filtered.length === 0">
+            <td colspan="4">
+              <div class="empty">
+                <div class="empty-icon">👩‍⚕️</div>
+                <h3>No hay trabajadores</h3>
+                <p class="muted">No se han encontrado cuentas TRABAJADOR para esta empresa.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="footer muted">MediCloud · Management</footer>
+</section>

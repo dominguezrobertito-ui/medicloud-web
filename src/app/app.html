@@ -1,0 +1,42 @@
+<header class="header card">
+  <div class="brand" (click)="goHome()" style="cursor:pointer;">
+    <span class="brand-badge">
+      <span class="brand-dot"></span>
+      MediCloud
+    </span>
+  </div>
+
+  <nav class="nav">
+    <!-- Público (sin sesión) -->
+    <a *ngIf="!hasSession()" routerLink="/">Inicio</a>
+    <a *ngIf="!hasSession()" routerLink="/contacto">Contacto</a>
+    <a *ngIf="!hasSession()" routerLink="/register">Registro</a>
+    <a *ngIf="!hasSession()" class="nav-primary" routerLink="/login">Iniciar sesión</a>
+
+    <!-- Paciente (CLIENTE) -->
+    <a *ngIf="showPacienteArchivosNav()" routerLink="/cliente/archivos">Mis archivos</a>
+    <a *ngIf="showPacienteArchivosNav()" routerLink="/contacto">Contacto</a>
+
+    <!-- Hospital staff (TRABAJADOR) -->
+    <a *ngIf="showHospitalPanelNav()" routerLink="/trabajador/pacientes/archivos">Panel pacientes</a>
+    <a *ngIf="showHospitalPanelNav()" routerLink="/tickets">Soporte</a>
+    <a *ngIf="showHospitalPanelNav()" routerLink="/contacto">Contacto</a>
+
+    <!-- MediCloud (ADMIN) -->
+    <a *ngIf="showAdminNav()" routerLink="/admin/empresas">Management</a>
+    <a *ngIf="showAdminNav()" routerLink="/tickets">Soporte</a>
+    
+
+
+    <!-- Logout (para todos los logueados) -->
+    <a *ngIf="hasSession()" (click)="logout()" class="nav-primary" style="cursor:pointer;">Salir</a>
+  </nav>
+</header>
+
+<main class="container">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="small" style="margin-top:16px;opacity:.9;">
+  © MediCloud · Todos los derechos reservados
+</footer>

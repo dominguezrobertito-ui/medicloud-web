@@ -1,0 +1,63 @@
+<section style="display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch;">
+  <div class="card" style="padding:22px;">
+    <div class="badge">MediCloud</div>
+
+    <h1 style="margin:10px 0 8px;font-size:34px;line-height:1.1;">
+      Tu espacio seguro para gestionar documentos en la nube
+    </h1>
+
+    <p class="small" style="font-size:15px;line-height:1.6;">
+      Organiza, guarda y consulta tus archivos desde cualquier lugar con una experiencia rápida y sencilla.
+      MediCloud está diseñado para ofrecer control, trazabilidad y una gestión eficiente de la documentación.
+    </p>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+      <a class="btn" routerLink="/login">Acceder</a>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+      <span class="badge">Almacenamiento</span>
+      <span class="badge">Organización</span>
+      <span class="badge">Acceso seguro</span>
+      <span class="badge">Trazabilidad</span>
+    </div>
+  </div>
+
+  <div class="card" style="padding:22px;">
+    <h3 style="margin:0 0 10px;">¿Qué puedes hacer?</h3>
+
+    <ul class="small" style="margin:0;padding-left:18px;line-height:1.7;">
+      <li>Centralizar documentos y mantenerlos ordenados</li>
+      <li>Acceder de forma rápida desde el portal</li>
+      <li>Consultar historial de actividad y cambios</li>
+      <li>Mejorar la continuidad y disponibilidad del servicio</li>
+    </ul>
+
+    <!-- Soporte SOLO si hay sesión -->
+    <div
+      *ngIf="hasSession()"
+      style="margin-top:14px;padding:12px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,0.04);"
+    >
+      <div class="small" style="font-weight:600;">Soporte</div>
+      <div class="small">Horario: L–V 09:00–18:00</div>
+      <div class="small">Contacto: soporte@medicloud.com</div>
+    </div>
+  </div>
+</section>
+
+<section style="margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+  <div class="card" style="padding:16px;">
+    <div class="badge">Rápido</div>
+    <p class="small">Interfaz clara para encontrar y gestionar documentos sin fricción.</p>
+  </div>
+
+  <div class="card" style="padding:16px;">
+    <div class="badge">Seguro</div>
+    <p class="small">Protección de acceso y registros de actividad para mayor confianza.</p>
+  </div>
+
+  <div class="card" style="padding:16px;">
+    <div class="badge">Escalable</div>
+    <p class="small">Preparado para crecer con tu organización y adaptarse a nuevas necesidades.</p>
+  </div>
+</section>

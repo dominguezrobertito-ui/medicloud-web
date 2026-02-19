@@ -1,0 +1,61 @@
+<section class="page">
+  <div class="card login-card">
+    <div class="login-head">
+      <div class="badge">MediCloud</div>
+      <h1>Acceder</h1>
+      <p class="small">
+        Inicia sesión con tu correo y contraseña.
+      </p>
+    </div>
+
+    <div class="alert error" *ngIf="error">
+      <strong>Ha ocurrido un problema.</strong>
+      <span>{{ error }}</span>
+    </div>
+
+    <form (ngSubmit)="submit()" class="login-form">
+      <label class="small"><strong>Correo</strong></label>
+      <input
+        class="input"
+        type="email"
+        autocomplete="email"
+        placeholder="tu@correo.com"
+        [(ngModel)]="email"
+        name="email"
+        [disabled]="loading"
+        required
+      />
+
+      <label class="small" style="margin-top:10px;"><strong>Contraseña</strong></label>
+      <input
+        class="input"
+        type="password"
+        autocomplete="current-password"
+        placeholder="••••••••"
+        [(ngModel)]="password"
+        name="password"
+        [disabled]="loading"
+        required
+      />
+
+      <div class="login-actions">
+        <button class="btn" type="submit" [disabled]="loading || !email.trim() || !password">
+          {{ loading ? 'Entrando…' : 'Entrar' }}
+        </button>
+
+        <a class="btn-secondary" routerLink="/" style="padding:12px 16px;border-radius:12px;">
+          Volver
+        </a>
+
+<a class="btn" style="padding:12px 16px;border-radius:12px;" routerLink="/register">
+  ¿No estás registrado?
+</a>
+
+      </div>
+    </form>
+
+    <div class="login-foot small">
+      Si no recuerdas tu contraseña, contacta con soporte.
+    </div>
+  </div>
+</section>

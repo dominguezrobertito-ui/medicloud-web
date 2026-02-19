@@ -1,0 +1,137 @@
+:root{
+  /* ===== Light / Cream theme ===== */
+  --bg: #fbf7ef;               /* fondo crema */
+  --card: #ffffff;             /* tarjetas */
+  --card2: #f6efe3;            /* superficies suaves (inputs/toolbar) */
+
+  --text: #2a2a27;             /* texto principal */
+  --muted: #6f6a5f;            /* texto secundario */
+
+  --primary: #2f6f61;          /* verde-azulado profesional */
+  --primary2: #d4a373;         /* acento arena */
+  --danger: #c9414a;
+
+  --border: #e5dccb;
+  --shadow: 0 14px 40px rgba(30, 20, 10, 0.08);
+  --radius: 16px;
+  --max: 1100px;
+  --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: var(--font);
+  color: var(--text);
+  background:
+    radial-gradient(900px 500px at 10% 10%, rgba(212,163,115,.20), transparent 60%),
+    radial-gradient(900px 500px at 90% 20%, rgba(47,111,97,.12), transparent 55%),
+    var(--bg);
+}
+
+a{ color: inherit; text-decoration:none; }
+.container{ max-width: var(--max); margin:0 auto; padding: 24px; }
+
+/* ===== Base surfaces ===== */
+.card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  /* antes usabas blur; en claro suele verse “sucio”, lo quitamos */
+}
+
+/* ===== Buttons ===== */
+.btn{
+  border: 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), #3b8a79);
+  transition: transform .06s ease, filter .12s ease;
+}
+.btn:hover{ filter: brightness(1.03); }
+.btn:active{ transform: translateY(1px); }
+.btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+.btn-secondary{
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* Si usas btn ghost en páginas */
+.btn.ghost{
+  background: var(--card2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* Si usas danger-outline en tickets */
+.btn.danger-outline{
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid rgba(201,65,74,.35);
+}
+.btn.danger-outline:hover{
+  background: rgba(201,65,74,.08);
+}
+
+/* ===== Inputs ===== */
+.input{
+  width:100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  color: var(--text);
+  outline: none;
+}
+.input:focus{ border-color: rgba(47,111,97,.55); }
+
+/* ✅ Fix select: fondo claro + texto oscuro */
+select.input{
+  background: var(--card);
+  color: var(--text);
+}
+select.input option{
+  color: #111; /* importante: el desplegable suele ser blanco */
+}
+
+/* ===== Badges ===== */
+.badge{
+  display:inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Si usas variantes badge en estados */
+.badge-ok{
+  background: rgba(47,111,97,.10);
+  border-color: rgba(47,111,97,.22);
+  color: #245a50;
+}
+.badge-warn{
+  background: rgba(212,163,115,.18);
+  border-color: rgba(212,163,115,.35);
+  color: #7a552a;
+}
+.badge-muted{
+  background: rgba(111,106,95,.10);
+  border-color: rgba(111,106,95,.20);
+  color: #6f6a5f;
+}
+
+.small{ color: var(--muted); font-size: 13px; }
+.error{ color: var(--danger); }
+
+/* (Opcional) clase muted si la usas en HTML */
+.muted{ color: var(--muted); }

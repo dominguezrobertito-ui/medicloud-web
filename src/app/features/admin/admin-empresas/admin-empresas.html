@@ -1,0 +1,81 @@
+<section class="page">
+  <header class="page-header">
+    <div class="title">
+      <h1>Management · Empresas</h1>
+      <p class="muted">Gestiona tenants (hospitales) y consulta trabajadores por empresa.</p>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" (click)="load()" [disabled]="loading">
+        {{ loading ? 'Actualizando…' : 'Actualizar' }}
+      </button>
+    </div>
+  </header>
+
+  <div class="alert error" *ngIf="error">
+    <strong>Ha ocurrido un problema.</strong>
+    <span>{{ error }}</span>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <span class="search-icon">🔎</span>
+      <input [(ngModel)]="q" placeholder="Buscar empresa por nombre o ID…" />
+    </div>
+
+    <div class="filters">
+      <label class="check">
+        <input type="checkbox" [(ngModel)]="showInactive" />
+        <span>Mostrar inactivas</span>
+      </label>
+      <button class="btn" (click)="load()" [disabled]="loading">Buscar</button>
+    </div>
+  </div>
+
+  <div class="card table-card">
+    <div class="table-head">
+      <div class="table-title">
+        <strong>Empresas</strong>
+        <span class="muted">({{ filtered.length }})</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Empresa</th>
+            <th>Estado</th>
+            <th class="right">Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let e of filtered">
+            <td class="muted">#{{ e.id_empresa }}</td>
+            <td style="font-weight:800">{{ e.nombre }}</td>
+            <td><span [class]="badgeEstado(e.estado)">{{ e.estado }}</span></td>
+            <td class="right">
+              <button class="btn small" (click)="openTrabajadores(e.id_empresa)">
+                Ver trabajadores
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="!loading && filtered.length === 0">
+            <td colspan="4">
+              <div class="empty">
+                <div class="empty-icon">🏥</div>
+                <h3>No hay resultados</h3>
+                <p class="muted">Prueba a cambiar el filtro o el texto de búsqueda.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="footer muted">MediCloud · Management</footer>
+</section>

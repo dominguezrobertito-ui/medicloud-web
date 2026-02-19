@@ -1,0 +1,210 @@
+<section class="page">
+  <!-- Header -->
+  <header class="page-header">
+    <div class="title">
+      <h1>Documentos</h1>
+      <p>Accede a tus archivos de forma segura desde MediCloud.</p>
+    </div>
+
+    <div class="actions">
+      <!-- Subir archivo -->
+      <label class="btn">
+        {{ uploading ? 'Subiendo…' : 'Subir archivo' }}
+        <input
+          type="file"
+          accept="application/pdf,.pdf"
+          (change)="onFileSelected($event)"
+          [disabled]="uploading || loading"
+          style="display: none;"
+        />
+      </label>
+
+      <button class="btn ghost" (click)="loadFiles()" [disabled]="loading || uploading">
+        {{ loading ? 'Actualizando…' : 'Actualizar' }}
+      </button>
+
+      <button class="btn danger" (click)="logout()" [disabled]="uploading">
+        Cerrar sesión
+      </button>
+    </div>
+  </header>
+
+  <!-- Error -->
+  <div class="alert error" *ngIf="error">
+    <strong>Ha ocurrido un problema.</strong>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- OK upload -->
+  <div class="alert" *ngIf="uploadOkMsg">
+    <strong>Listo.</strong>
+    <span>{{ uploadOkMsg }}</span>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats" *ngIf="!error">
+    <div class="stat-card">
+      <div class="stat-label">Total de archivos</div>
+      <div class="stat-value">{{ visibleCount }}</div>
+<div class="stat-sub">
+  {{ hideDeleted ? 'Activos visibles (sin eliminados)' : 'Todos los visibles (incluye eliminados)' }}
+</div>
+
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Almacenamiento</div>
+      <div class="stat-value">{{ formatBytes(visibleBytes) }}</div>
+<div class="stat-sub">
+  Tamaño total de los documentos visibles
+</div>
+
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Estado</div>
+      <div class="stat-value">
+        <span class="dot" [class.on]="!loading"></span>
+        {{ loading ? 'Sincronizando' : 'Disponible' }}
+      </div>
+      <div class="stat-sub">Conexión con la plataforma</div>
+    </div>
+
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search">
+      <span class="search-icon">⌕</span>
+      <input
+        type="text"
+        placeholder="Buscar por nombre o estado…"
+        [(ngModel)]="search"
+      />
+      <div class="filters">
+  <button
+    class="btn small ghost"
+    (click)="hideDeleted = !hideDeleted"
+    [attr.aria-pressed]="hideDeleted"
+    [title]="hideDeleted ? 'Mostrando solo no eliminados' : 'Mostrando también eliminados'"
+  >
+    {{ hideDeleted ? 'Mostrando: activos' : 'Mostrando: todos' }}
+  </button>
+</div>
+
+    </div>
+
+    <div class="hint">
+      <span class="pill">Protegido</span>
+      <span class="pill">Privado</span>
+      <span class="pill">Auditable</span>
+    </div>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div class="card" *ngIf="loading">
+    <div class="skeleton-row"></div>
+    <div class="skeleton-row"></div>
+    <div class="skeleton-row"></div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="card empty" *ngIf="!loading && filteredArchivos.length === 0">
+    <div class="empty-icon">📄</div>
+    <h3>No hay documentos</h3>
+    <p>Cuando subas archivos, aparecerán aquí listos para abrir y consultar.</p>
+    <button class="btn" (click)="loadFiles()">Volver a comprobar</button>
+  </div>
+
+  <!-- Table -->
+  <div class="card table-card" *ngIf="!loading && filteredArchivos.length > 0">
+    <div class="table-title">
+  <strong>Mis archivos</strong>
+  <span class="muted">({{ filteredArchivos.length }} visibles)</span>
+</div>
+
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Archivo</th>
+            <th>Estado</th>
+            <th>Tamaño</th>
+            <th>Subido</th>
+            <th class="right">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let a of filteredArchivos">
+            <td class="file-cell">
+              <span class="file-ico">📄</span>
+              <div class="file-meta">
+                <div class="file-name">
+                  {{ a.nombre_original }}
+                  <span class="pill ext" *ngIf="fileExt(a.nombre_original) as ext">
+                    {{ ext }}
+                  </span>
+                </div>
+
+                <div class="file-sub muted">
+                  ID: {{ a.id_archivo }} · SHA: {{ a.hash_sha256 || '—' }}
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <span [class]="badgeClass(a.estado_archivo)">
+                {{ a.estado_archivo }}
+              </span>
+            </td>
+
+            <td>{{ formatBytes(a.tamano_bytes) }}</td>
+
+            <td class="muted">
+              <ng-container *ngIf="asDate(a.fecha_subida) as d; else rawDate">
+                {{ d | date:'dd/MM/yyyy HH:mm' }}
+              </ng-container>
+              <ng-template #rawDate>{{ a.fecha_subida }}</ng-template>
+            </td>
+
+            <td class="right">
+              <button
+                class="btn small"
+                (click)="openFile(a.uri_almacenamiento)"
+                [disabled]="(a.estado_archivo || '').toUpperCase() === 'ELIMINADO'"
+                [title]="(a.estado_archivo || '').toUpperCase() === 'ELIMINADO' ? 'Archivo eliminado' : 'Abrir archivo'"
+              >
+                Abrir
+              </button>
+
+              <button
+    class="btn small"
+    (click)="openFile(a.uri_almacenamiento)"
+    [disabled]="(a.estado_archivo || '').toUpperCase() === 'ELIMINADO'"
+  >
+    Abrir
+  </button>
+
+  <button
+    class="btn small danger-outline"
+    style="margin-left:8px;"
+    (click)="deleteArchivo(a)"
+    [disabled]="(a.estado_archivo || '').toUpperCase() === 'ELIMINADO' || deletingId === a.id_archivo"
+    [title]="(a.estado_archivo || '').toUpperCase() === 'ELIMINADO' ? 'Ya está eliminado' : 'Eliminar archivo'"
+  >
+    {{ deletingId === a.id_archivo ? 'Eliminando…' : 'Eliminar' }}
+  </button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="footer muted">
+    MediCloud · Gestión documental segura
+  </footer>
+</section>

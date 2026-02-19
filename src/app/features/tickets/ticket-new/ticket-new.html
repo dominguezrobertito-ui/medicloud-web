@@ -1,0 +1,70 @@
+<section class="page">
+  <header class="page-header">
+    <div class="title">
+      <h1>Nuevo ticket</h1>
+      <p>
+        Describe tu incidencia o solicitud. Nuestro equipo te responderá lo antes posible.
+      </p>
+    </div>
+
+    <div class="actions">
+      <a class="btn ghost" routerLink="/tickets">Volver</a>
+    </div>
+  </header>
+
+  <div class="alert error" *ngIf="error">
+    <strong>Revisa el formulario.</strong>
+    <span>{{ error }}</span>
+  </div>
+
+  <div class="card form-card">
+    <div class="form-grid">
+      <div class="field">
+        <label>Asunto</label>
+        <input
+          type="text"
+          placeholder="Ej: No puedo abrir un documento"
+          [(ngModel)]="asunto"
+        />
+        <div class="hint muted">Máximo recomendado: 200 caracteres.</div>
+      </div>
+
+      </div>
+
+      <div class="field" *ngIf="isStaff()">
+        <label>Email del cliente</label>
+        <input
+          type="email"
+          placeholder="cliente@empresa.com"
+          [(ngModel)]="cliente_email"
+        />
+        <div class="hint muted">
+          Solo para empleados/admin: ticket “Empresa → Cliente”.
+        </div>
+      </div>
+
+      <div class="field full">
+        <label>Descripción</label>
+        <textarea
+          rows="7"
+          placeholder="Explica qué ocurre, pasos para reproducirlo y cualquier detalle útil."
+          [(ngModel)]="descripcion"
+        ></textarea>
+        <div class="hint muted">
+          Cuantos más detalles, más rápido se resolverá.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn ghost" (click)="cancel()" [disabled]="loading">Cancelar</button>
+      <button class="btn" (click)="submit()" [disabled]="loading">
+        {{ loading ? 'Creando…' : 'Crear ticket' }}
+      </button>
+    </div>
+  
+
+  <footer class="footer muted">
+    MediCloud · Soporte
+  </footer>
+</section>

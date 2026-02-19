@@ -1,0 +1,114 @@
+<section class="page">
+  <!-- Header -->
+  <header class="page-header">
+    <div class="title">
+      <h1>Soporte</h1>
+      <p>Consulta tus tickets y gestiona solicitudes desde MediCloud.</p>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" (click)="loadTickets(true)" [disabled]="loading">
+        {{ loading ? 'Actualizando…' : 'Actualizar' }}
+      </button>
+
+      <button class="btn" (click)="newTicket()">
+        Nuevo ticket
+      </button>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  <div class="alert error" *ngIf="error">
+    <strong>Ha ocurrido un problema.</strong>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar" *ngIf="!error">
+    <div class="search">
+      <span class="search-icon">⌕</span>
+      <input
+        type="text"
+        placeholder="Buscar por asunto, prioridad o estado…"
+        [(ngModel)]="search"
+      />
+    </div>
+
+    <div class="filters">
+      <button class="btn ghost" type="button" (click)="toggleOnlyNotClosed()">
+        {{ onlyNotClosed ? 'Mostrando: abiertos' : 'Mostrando: todos' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div class="card list-card" *ngIf="loading">
+    <div class="list-head">
+      <div class="list-title">
+        <strong>Tickets</strong>
+        <span class="muted">(cargando…)</span>
+      </div>
+    </div>
+
+    <div class="card" style="border:0; border-radius:0;">
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="card empty" *ngIf="!loading && !error && filteredTickets.length === 0">
+    <div class="empty-icon">🎫</div>
+    <h3>No hay tickets</h3>
+    <p>
+      Cuando abras una solicitud de soporte, aparecerá aquí y podrás ver su estado y mensajes.
+    </p>
+
+    <div class="empty-actions">
+      <button class="btn" (click)="newTicket()">Crear ticket</button>
+     <button class="btn ghost" (click)="loadTickets(true)" [disabled]="loading">
+  {{ loading ? 'Actualizando…' : 'Actualizar' }}
+</button>
+
+    </div>
+  </div>
+
+  <!-- List -->
+  <div class="card list-card" *ngIf="!loading && !error && filteredTickets.length > 0">
+    <div class="list-head">
+      <div class="list-title">
+        <strong>Tickets</strong>
+        <span class="muted">({{ filteredTickets.length }} mostrados)</span>
+      </div>
+    </div>
+
+    <div class="list">
+      <button class="ticket" type="button" *ngFor="let t of filteredTickets" (click)="openTicket(t.id_ticket)">
+        <div class="ticket-main">
+          <div class="ticket-top">
+            <div class="ticket-asunto">{{ t.asunto }}</div>
+            <span [class]="badgeClass(t.estado)">{{ t.estado }}</span>
+          </div>
+
+          <div class="ticket-sub muted">
+            <span class="dot-sep">•</span>
+            <span class="pill">Tipo: {{ t.tipo_ticket }}</span>
+            <span class="dot-sep">•</span>
+            <span class="pill">ID #{{ t.id_ticket }}</span>
+          </div>
+        </div>
+
+        <div class="ticket-meta muted right">
+          <span class="ticket-go">
+            Ver detalle <span class="arrow">›</span>
+          </span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <footer class="footer muted">
+    MediCloud · Soporte y ticketing
+  </footer>
+</section>

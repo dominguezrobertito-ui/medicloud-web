@@ -1,0 +1,93 @@
+<section class="page">
+  <header class="page-header">
+    <div class="title">
+      <h1>Panel de empleados</h1>
+      <p class="muted">Archivos de pacientes. Filtra por paciente o nombre de archivo.</p>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" (click)="load()" [disabled]="loading">
+        {{ loading ? 'Actualizando…' : 'Actualizar' }}
+      </button>
+    </div>
+  </header>
+
+  <div class="alert error" *ngIf="error">
+    <strong>Ha ocurrido un problema.</strong>
+    <span>{{ error }}</span>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <span class="search-icon">🔎</span>
+      <input [(ngModel)]="q" placeholder="Buscar por paciente (nombre/correo) o archivo…" />
+    </div>
+
+    <div class="filters">
+      <button class="btn" (click)="load()" [disabled]="loading">Buscar</button>
+    </div>
+  </div>
+
+  <div class="card table-card">
+    <div class="table-head">
+      <div class="table-title">
+        <strong>Resultados</strong>
+        <span class="muted">({{ rows.length }})</span>
+      </div>
+      <div class="muted" *ngIf="rows.length">
+        Total: {{ formatBytes(getTotalBytes()) }}
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Paciente</th>
+            <th>Archivo</th>
+            <th>Estado</th>
+            <th class="right">Tamaño</th>
+            <th>Subida</th>
+            <th class="right">Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let r of rows">
+            <td>
+              <div style="font-weight:800">{{ r.paciente_nombre }}</div>
+              <div class="muted" style="font-size:12px">{{ r.paciente_correo }}</div>
+            </td>
+
+            <td>
+              <div style="font-weight:800">{{ r.nombre_original }}</div>
+              <div class="muted" style="font-size:12px">#{{ r.id_archivo }}</div>
+            </td>
+
+            <td><span [class]="badgeClass(r.estado_archivo)">{{ r.estado_archivo }}</span></td>
+            <td class="right">{{ formatBytes(r.tamano_bytes) }}</td>
+            <td class="muted">{{ r.fecha_subida }}</td>
+
+            <td class="right">
+              <button class="btn small" (click)="openFile(r.uri_almacenamiento)" [disabled]="r.estado_archivo==='ELIMINADO'">
+                Abrir
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="!loading && rows.length === 0">
+            <td colspan="6">
+              <div class="empty">
+                <div class="empty-icon">📂</div>
+                <h3>No hay resultados</h3>
+                <p class="muted">Prueba a buscar por nombre del paciente, su correo o el nombre del archivo.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="footer muted">MediCloud · Portal empleados</footer>
+</section>

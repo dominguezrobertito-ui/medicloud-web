@@ -1,0 +1,49 @@
+<section class="page">
+  <div class="card" style="padding:22px; max-width:520px; margin: 0 auto;">
+    <div class="badge">MediCloud</div>
+
+    <h1 style="margin:10px 0 8px;font-size:30px;">Registro de cliente</h1>
+    <p class="small" style="margin:0 0 14px;line-height:1.6;">
+      Crea tu cuenta para acceder al portal. (Los empleados reciben credenciales internamente.)
+    </p>
+
+    <div class="alert error" *ngIf="error">
+      <strong>Error:</strong> <span>{{ error }}</span>
+    </div>
+
+    <label class="small" style="display:block;margin-top:10px;">Correo</label>
+    <input class="input" type="email" [(ngModel)]="correo" placeholder="tu@correo.com" />
+
+    <label class="small" style="display:block;margin-top:10px;">Nombre</label>
+    <input class="input" type="text" [(ngModel)]="nombre" placeholder="Tu nombre" />
+
+    <label class="small">Empresa</label>
+<select class="input" [(ngModel)]="id_empresa" name="id_empresa" required>
+  <option [ngValue]="null" disabled>Selecciona una empresa…</option>
+  <option *ngFor="let e of empresas" [ngValue]="e.id_empresa">
+    {{ e.nombre }}
+  </option>
+</select>
+
+
+    <label class="small" style="display:block;margin-top:10px;">Contraseña</label>
+    <input class="input" type="password" [(ngModel)]="password" placeholder="••••••••" />
+
+    <label class="small" style="display:block;margin-top:10px;">Repite contraseña</label>
+    <input class="input" type="password" [(ngModel)]="password2" placeholder="••••••••" />
+
+    <div class="small" style="margin-top:10px;opacity:.8;">
+      Requisitos: 8+ caracteres, 1 mayúscula, 1 número y 1 carácter especial.
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+      <button class="btn" (click)="submit()" [disabled]="loading">
+        {{ loading ? 'Creando…' : 'Crear cuenta' }}
+      </button>
+
+      <a class="btn-secondary" style="padding:12px 16px;border-radius:12px;" routerLink="/login">
+        Volver a login
+      </a>
+    </div>
+  </div>
+</section>

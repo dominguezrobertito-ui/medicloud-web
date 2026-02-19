@@ -1,0 +1,157 @@
+<section class="page">
+  <!-- Header -->
+  <header class="page-header">
+    <div class="title">
+      <a class="back muted" (click)="back()" style="cursor:pointer;">‹ Volver a soporte</a>
+      <h1>Ticket #{{ ticketId }}</h1>
+      <p *ngIf="ticket" class="muted">
+        {{ ticket.asunto }}
+      </p>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" (click)="load()" [disabled]="loading || sending">
+        {{ loading ? 'Actualizando…' : 'Actualizar' }}
+      </button>
+
+      <button class="btn danger" (click)="setEstado('CERRADO')" [disabled]="sending || loading" *ngIf="ticket">
+        Cerrar
+      </button>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  <div class="alert error" *ngIf="error">
+    <strong>Ha ocurrido un problema.</strong>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div class="card" *ngIf="loading">
+    <div class="skeleton-row"></div>
+    <div class="skeleton-row"></div>
+    <div class="skeleton-row"></div>
+  </div>
+
+  <!-- Ticket info -->
+  <div class="card" *ngIf="!loading && ticket">
+    <div class="ticket-head">
+      <div class="left">
+        <div class="row">
+          <strong>Estado</strong>
+          <span [class]="badgeClass(ticket.estado)">{{ ticket.estado }}</span>
+        </div>
+
+        <!-- ✅ Prioridad SOLO visible para staff -->
+        <div class="row" *ngIf="isStaff()">
+          <strong>Prioridad</strong>
+          <span class="pill">{{ ticket.prioridad || '—' }}</span>
+        </div>
+
+        <div class="row">
+          <strong>Tipo</strong>
+          <span class="pill">{{ ticket.tipo_ticket }}</span>
+        </div>
+
+        <div class="row" *ngIf="ticket.asignado_correo">
+          <strong>Asignado</strong>
+          <span class="pill">{{ ticket.asignado_correo }}</span>
+        </div>
+      </div>
+
+      <div class="meta muted">
+        <div *ngIf="ticket.cliente_correo">
+          Cliente: <strong>{{ ticket.cliente_correo }}</strong>
+        </div>
+        <div *ngIf="ticket.creador_correo">
+          Creador: <strong>{{ ticket.creador_correo }}</strong>
+        </div>
+        <div *ngIf="ticket.actualizado_en">
+          Última actualización: <strong>{{ ticket.actualizado_en }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions (staff) -->
+    <div class="ticket-actions" *ngIf="isStaff()">
+      <button class="btn" (click)="assignToMe()" [disabled]="sending || loading">
+        Asignarme
+      </button>
+
+      <button class="btn ghost" (click)="setEstado('EN_PROCESO')" [disabled]="sending || loading">
+        En proceso
+      </button>
+
+      <button class="btn ghost" (click)="setEstado('RESUELTO')" [disabled]="sending || loading">
+        Resuelto
+      </button>
+
+      <button class="btn danger-outline" (click)="setEstado('CERRADO')" [disabled]="sending || loading">
+        Cerrar
+      </button>
+
+      <!-- ✅ Clasificar prioridad (solo staff) -->
+      <div class="row" style="margin-left:auto; gap:8px;">
+        <span class="muted" style="font-weight:700;">Clasificar prioridad</span>
+        <button class="btn ghost" (click)="setPrioridad('BAJA')" [disabled]="sending || loading">
+          Baja
+        </button>
+        <button class="btn ghost" (click)="setPrioridad('MEDIA')" [disabled]="sending || loading">
+          Media
+        </button>
+        <button class="btn ghost" (click)="setPrioridad('ALTA')" [disabled]="sending || loading">
+          Alta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thread -->
+  <div class="card thread" *ngIf="!loading && ticket">
+    <div class="thread-head">
+      <strong>Conversación</strong>
+      <span class="muted">({{ mensajes.length }} mensajes)</span>
+    </div>
+
+    <div class="messages" *ngIf="mensajes.length > 0; else emptyThread">
+      <div class="msg" *ngFor="let m of mensajes">
+        <div class="msg-top">
+          <span class="msg-author">{{ m.autor_correo || ('Usuario #' + m.id_cuenta_autor) }}</span>
+          <span class="pill ext" *ngIf="m.autor_tipo">{{ m.autor_tipo }}</span>
+          <span class="msg-date muted">{{ m.enviado_en }}</span>
+        </div>
+
+        <div class="msg-body">{{ m.cuerpo }}</div>
+      </div>
+    </div>
+
+    <ng-template #emptyThread>
+      <div class="empty-thread muted">
+        No hay mensajes todavía. Escribe el primero para iniciar la conversación.
+      </div>
+    </ng-template>
+
+    <!-- Composer -->
+    <div class="composer">
+      <label class="muted"><strong>Nuevo mensaje</strong></label>
+
+      <textarea
+        class="input"
+        [(ngModel)]="message"
+        placeholder="Escribe tu mensaje…"
+        [disabled]="sending || loading"
+        rows="4"
+      ></textarea>
+
+      <div class="composer-actions">
+        <button class="btn" (click)="sendMessage()" [disabled]="sending || loading || !message.trim()">
+          {{ sending ? 'Enviando…' : 'Enviar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer muted">
+    MediCloud · Ticketing
+  </footer>
+</section>
